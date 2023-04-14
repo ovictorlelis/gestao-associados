@@ -9,7 +9,7 @@
     @livewireStyles
 </head>
 
-<body>
+<body class="bg-light">
 
     @yield('content')
 

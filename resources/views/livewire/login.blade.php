@@ -1,24 +1,40 @@
 <div>
-    <section class="text-gray-600 body-font">
-        <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
-            <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-                <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Entrar</h2>
-                <div class="relative mb-4">
-                    <label class="leading-7 text-sm text-gray-600" for="full-name">Usuário</label>
-                    <input
-                        class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        id="full-name" name="full-name" type="text">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="text-center py-5"></div>
+                @error('error')
+                    <p class="alert alert-danger border-0 text-center">
+                        {{ $message }}
+                    </p>
+                @enderror
+                <div class="card shadow">
+                    <div class="card-header">Faça login no sistema</div>
+                    <div class="card-body rounded">
+                        <div class="form-floating mb-4">
+                            <input class="form-control text" id="user" input="text" label="Usuário" name="user"
+                                placeholder="Usuário" type="text" wire:model="user">
+                            <label for="user">Usuário</label>
+                            @error('user')
+                                <div class="form-text text-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input class="form-control" id="password" input="password" label="Senha" name="password"
+                                placeholder="Senha" type="password" wire:model="password">
+                            <label for="password">Senha</label>
+                            @error('password')
+                                <div class="form-text text-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <button class="w-100 btn btn-primary py-3" wire:click="login">Entrar</button>
+                    </div>
                 </div>
-                <div class="relative mb-4">
-                    <label class="leading-7 text-sm text-gray-600" for="email">Senha</label>
-                    <input
-                        class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        id="email" name="email" type="email">
-                </div>
-                <button
-                    class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
-                <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
             </div>
         </div>
-    </section>
+    </div>
 </div>
