@@ -14,6 +14,11 @@ class Associate extends Model
         return $this->hasOne(Address::class);
     }
 
+    public function holder()
+    {
+        return $this->belongsTo(Associate::class, 'holder_id');
+    }
+
     public function dependents()
     {
         return $this->hasMany(Associate::class, 'holder_id');

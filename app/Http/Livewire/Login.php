@@ -35,7 +35,7 @@ class Login extends Component
         ];
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('');
+            return redirect('/');
         }
 
         $this->password = '';

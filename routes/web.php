@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Livewire\Login;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware('auth')->name('profile');

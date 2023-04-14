@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- @guest --}}
-    {{-- <livewire:login /> --}}
-    {{--  @endguest --}}
+    @guest
+        <livewire:login />
+    @endguest
 
-    {{-- @auth --}}
-    <x-home />
-    {{-- @endauth --}}
+    @auth
+        <x-home />
+    @endauth
 @endsection
