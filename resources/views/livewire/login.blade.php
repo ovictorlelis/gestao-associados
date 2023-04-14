@@ -12,8 +12,8 @@
                     <div class="card-header">Faça login no sistema</div>
                     <div class="card-body rounded">
                         <div class="form-floating mb-4">
-                            <input class="form-control text" id="user" input="text" label="Usuário" name="user"
-                                placeholder="Usuário" type="text" wire:model="user">
+                            <input class="form-control shadow-none" id="user" input="text" label="Usuário"
+                                name="user" placeholder="Usuário" type="text" wire:model="user">
                             <label for="user">Usuário</label>
                             @error('user')
                                 <div class="form-text text-danger">
@@ -22,8 +22,8 @@
                             @enderror
                         </div>
                         <div class="form-floating mb-4">
-                            <input class="form-control" id="password" input="password" label="Senha" name="password"
-                                placeholder="Senha" type="password" wire:model="password">
+                            <input class="form-control shadow-none" id="password" input="password" label="Senha"
+                                name="password" placeholder="Senha" type="password" wire:model="password">
                             <label for="password">Senha</label>
                             @error('password')
                                 <div class="form-text text-danger">
