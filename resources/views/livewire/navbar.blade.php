@@ -9,32 +9,18 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-                <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
-                    <li class="nav-item dropdown">
-                        <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                            href="#" role="button">
-                            Menu
-                        </a>
-                        <ul class="dropdown-menu border-0 shadow" style="right: 0; left: initial;">
-
-                            <li><a class="dropdown-item" href="{{ route('home') }}/perfil">Perfil</a></li>
-                            <li><a class="dropdown-item" href="{{ route('home') }}/usuarios">Usuários</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><button class="dropdown-item" wire:click="logout">Sair</button></li>
-                        </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">Associados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('create') }}">Novo associado</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" wire:click="logout">Sair</button>
                     </li>
                 </ul>
-                <form class="d-flex" wire:submit.prevent="change">
-                    <input aria-label="Pesquisar" class="form-control me-2 shadow-none" name="pesquisa"
-                        placeholder="Pesquisar" type="search" wire:model="search">
-                    <button class="btn btn-dark" type="submit">Pesquisar</button>
-                </form>
-
             </div>
         </div>
     </nav>
-
 </div>

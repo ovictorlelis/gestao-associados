@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Livewire\{
+    Associate,
+    Associates,
+    Create,
+    Login
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/acessar', Login::class)->middleware('guest')->name('login');
 
-Route::get('/profile', function () {
-    return view('profile');
-})->middleware('auth')->name('profile');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', Associates::class)->name('home');
+    Route::get('/associado/novo/{dependent?}', Create::class)->name('create');
+    Route::get('/associado/{associate}', Associate::class)->name('associate');
+});
