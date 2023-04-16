@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Associate as ModelsAssociate;
+use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -28,7 +29,7 @@ class Associate extends Component
     public $number;
     public $complement;
 
-    protected $listeners = ['deleteConfirm', 'holderConfirm', 'dependentConfirm', 'pendencyConfirm'];
+    protected $listeners = ['deleteConfirm', 'holderConfirm', 'dependentConfirm', 'pendencyConfirm', 'refresh' => '$refresh'];
 
     protected function rules()
     {
@@ -47,7 +48,7 @@ class Associate extends Component
 
     public function mount($associate)
     {
-        $this->associate = ModelsAssociate::find($associate);
+        $this->associate = ModelsAssociate::findOrFail($associate);
 
         $this->name = $this->associate->name;
         $this->card = $this->associate->card;
@@ -70,7 +71,14 @@ class Associate extends Component
     {
         $associate = $this->validate();
 
+        if ($this->image) {
+            $image = $this->image->store('associates');
+            $associate['photo'] = $image;
+        }
+
         ModelsAssociate::where('id', $this->associate->id)->update($associate);
+
+        $this->emit('refresh');
         $this->alert(
             'success',
             'Atualizado com sucesso',
@@ -94,6 +102,7 @@ class Associate extends Component
 
     public function deleteConfirm()
     {
+        File::delete(public_path('storage/' . $this->associate->photo));
         ModelsAssociate::destroy($this->associate->id);
 
         $this->flash(
@@ -122,11 +131,10 @@ class Associate extends Component
         $associate = $this->validate();
 
         if ($this->associate->holder->pendency) {
-            return $this->flash(
+            return  $this->alert(
                 'error',
                 'Títular com pendência',
-                ['position' => 'top', 'timerProgressBar' => true],
-                route('associate', $this->associate->id)
+                ['position' => 'top', 'timerProgressBar' => true]
             );
         }
 
@@ -135,11 +143,11 @@ class Associate extends Component
 
         ModelsAssociate::where('id', $this->associate->id)->update($associate);
 
-        $this->flash(
+        $this->emit('refresh');
+        $this->alert(
             'success',
             'Associado virou títular',
-            ['position' => 'top', 'timerProgressBar' => true],
-            route('associate', $this->associate->id)
+            ['position' => 'top', 'timerProgressBar' => true]
         );
     }
 
@@ -164,11 +172,10 @@ class Associate extends Component
         $holder = ModelsAssociate::where('document', $data['value'])->first();
 
         if (!$holder) {
-            return $this->flash(
+            return $this->alert(
                 'error',
                 'CPF do títular não encontrado',
-                ['position' => 'top', 'timerProgressBar' => true],
-                route('associate', $this->associate->id)
+                ['position' => 'top', 'timerProgressBar' => true]
             );
         }
 
@@ -177,11 +184,11 @@ class Associate extends Component
 
         ModelsAssociate::where('id', $this->associate->id)->update($associate);
 
-        $this->flash(
+        $this->emit('refresh');
+        $this->alert(
             'success',
             'Associado virou dependente',
-            ['position' => 'top', 'timerProgressBar' => true],
-            route('associate', $this->associate->id)
+            ['position' => 'top', 'timerProgressBar' => true]
         );
     }
 
@@ -206,11 +213,11 @@ class Associate extends Component
 
         ModelsAssociate::where('id', $this->associate->id)->update($associate);
 
-        $this->flash(
+        $this->emit('refresh');
+        $this->alert(
             'success',
             'Pendência confirmada',
-            ['position' => 'top', 'timerProgressBar' => true],
-            route('associate', $this->associate->id)
+            ['position' => 'top', 'timerProgressBar' => true]
         );
     }
 }

@@ -4,7 +4,6 @@
             <div class="col">
             </div>
             <div class="col text-end">
-                <button class="btn btn-dark">Novo Documento</button>
             </div>
         </div>
         <div class="row">
@@ -55,14 +54,45 @@
             </div>
 
             <div class="col-md-6">
-                <h1 class="mb-3 h3">Documentos</h1>
-                <p class="text-center">Nenhum documento cadastrado</p>
-                <table class="table bg-white shadow rounded table-responsive">
-                    <tbody>
+                <div class="row">
+                    <div class="col">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <h1 class="h3 mb-0">Documentos</h1>
+                            </div>
+                            <div class="col text-end">
+                                <a class="btn btn-dark" href="{{ route('document', $associate->id) }}">Novo
+                                    documento</a>
+                            </div>
+                        </div>
 
-
-                    </tbody>
-                </table>
+                        <table class="table bg-white shadow rounded table-responsive">
+                            <tbody>
+                                @foreach ($associate->documents as $document)
+                                    <tr>
+                                        <td class="p-0">
+                                            <a class="d-flex align-items-center px-3 py-4 text-decoration-none text-dark"
+                                                href="{{ route('document', [$associate->id, $document->id]) }}">
+                                                {{ $document->name }}
+                                            </a>
+                                        </td>
+                                        <td class="p-0">
+                                            <a class="d-flex align-items-center justify-content-end px-3 py-4"
+                                                href="{{ route('document', [$associate->id, $document->id]) }}">
+                                                <svg fill="#9ca3af" height="24" viewBox="0 0 256 256" width="24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z">
+                                                    </path>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         @if ($associate->type == 'holder')

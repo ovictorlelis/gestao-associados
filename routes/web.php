@@ -4,6 +4,7 @@ use App\Http\Livewire\{
     Associate,
     Associates,
     Create,
+    Document,
     Login
 };
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', Associates::class)->name('home');
     Route::get('/associado/novo/{dependent?}', Create::class)->name('create');
     Route::get('/associado/{associate}', Associate::class)->name('associate');
+    Route::get('/documento/{associate}/{documentId?}', Document::class)->name('document');
 });

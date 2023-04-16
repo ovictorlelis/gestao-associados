@@ -20,4 +20,9 @@ class Associate extends Model
     {
         return $this->hasMany(Associate::class, 'holder_id');
     }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'associate_id');
+    }
 }
