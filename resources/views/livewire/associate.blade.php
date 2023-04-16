@@ -21,20 +21,33 @@
 
                 <form wire:submit.prevent="update">
                     <div class="bg-white shadow rounded p-4 mb-5">
-                        <x-form-associate :image="$image" />
+                        <x-form-associate :image="$image" :associate="$associate" />
 
                         <div class="text-end">
 
                             @if ($associate->type == 'holder')
-                                <a class="btn btn-warning">Bloquear</a>
-                                <a class="btn btn-info">Virar dependente</a>
+                                <button class="btn btn-warning" type="button" wire:click.prevent="pendency">
+                                    @if ($associate->pendency)
+                                        Desbloquear
+                                    @else
+                                        Bloquear
+                                    @endif
+                                </button>
+
+                                @if ($associate->dependents->isEmpty())
+                                    <button class="btn btn-info" type="button" wire:click.prevent="dependent">
+                                        Virar dependente
+                                    </button>
+                                @endif
                             @endif
 
                             @if ($associate->type == 'dependent')
-                                <a class="btn btn-info">Virar títular</a>
+                                <button class="btn btn-info" type="button" wire:click.prevent="holder">
+                                    Virar títular
+                                </button>
                             @endif
 
-                            <button class="btn btn-danger" wire:click.prevent="delete">Excluir</button>
+                            <button class="btn btn-danger" type="button" wire:click.prevent="delete">Excluir</button>
                             <button class="btn btn-success" type="submit">Salvar</button>
                         </div>
                     </div>

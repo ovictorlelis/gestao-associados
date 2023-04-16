@@ -4,10 +4,12 @@ namespace App\Http\Livewire;
 
 use App\Models\Associate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Create extends Component
 {
+    use WithFileUploads;
     use LivewireAlert;
 
     public $dependent;
@@ -27,14 +29,15 @@ class Create extends Component
 
     protected $rules = [
         'name' => 'required|string',
-        'card' => 'required|numeric',
+        'card' => 'required|string',
         'document' => 'required|numeric|unique:associates,document',
         'zip' => 'nullable|numeric',
         'address' => 'nullable|string',
         'state' => 'nullable|string',
         'fu' => 'nullable|string|min:2',
-        'number' => 'nullable|numeric',
+        'number' => 'nullable|string',
         'complement' => 'nullable|string',
+        'image' => 'nullable|image',
     ];
 
 
@@ -55,6 +58,11 @@ class Create extends Component
         if ($this->dependent) {
             $associate['type'] = 'dependent';
             $associate['holder_id'] = $this->dependent->id;
+        }
+
+        if ($this->image) {
+            $image = $this->image->store('associates');
+            $associate['photo'] = $image;
         }
 
         $created = Associate::create($associate);

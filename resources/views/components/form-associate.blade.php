@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-6">
-        <x-input input="card" label="Carteirinha" type="number" wire:model="card" />
+        <x-input input="card" label="Carteirinha" type="text" wire:model="card" />
     </div>
 </div>
 
@@ -30,6 +30,9 @@
     <div class="col-6 text-center" style="height: 200px;">
         @if ($image)
             <img alt="" class="img-fluid rounded" src="{{ $image->temporaryUrl() }}" style="max-height: 200px;">
+        @elseif(isset($associate->photo))
+            <img alt="" class="img-fluid rounded" src="{{ asset('storage/' . $associate->photo) }}"
+                style="max-height: 200px;">
         @else
             <img alt="" class="img-fluid rounded" src="{{ url('images/exemplo.jpg') }}"
                 style="max-height: 200px;">
@@ -50,7 +53,7 @@
 
 <div class="row mb-3">
     <div class="col-6">
-        <x-input input="number" label="Número" type="number" wire:model="number" />
+        <x-input input="number" label="Número" type="text" wire:model="number" />
     </div>
 
     <div class="col-6">

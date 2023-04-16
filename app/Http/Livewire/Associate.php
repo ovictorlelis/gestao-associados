@@ -28,19 +28,19 @@ class Associate extends Component
     public $number;
     public $complement;
 
-    protected $listeners = ['deleteConfirm'];
+    protected $listeners = ['deleteConfirm', 'holderConfirm', 'dependentConfirm', 'pendencyConfirm'];
 
     protected function rules()
     {
         return [
             'name' => 'required|string',
-            'card' => 'required|numeric',
+            'card' => 'required|string',
             'document' => 'required|numeric|unique:associates,document,' . $this->associate->id,
             'zip' => 'nullable|numeric',
             'address' => 'nullable|string',
             'state' => 'nullable|string',
             'fu' => 'nullable|string|min:2',
-            'number' => 'nullable|numeric',
+            'number' => 'nullable|string',
             'complement' => 'nullable|string',
         ];
     }
@@ -101,6 +101,116 @@ class Associate extends Component
             'Associado excluído',
             ['position' => 'top', 'timerProgressBar' => true],
             route('home')
+        );
+    }
+
+    public function holder()
+    {
+        $this->alert('question', 'Virar títular?', [
+            'position' => 'top',
+            'showCancelButton' => true,
+            'cancelButtonText' => 'Cancel',
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Confirmar',
+            'onConfirmed' => 'holderConfirm',
+            'timer' => null,
+        ]);
+    }
+
+    public function holderConfirm()
+    {
+        $associate = $this->validate();
+
+        if ($this->associate->holder->pendency) {
+            return $this->flash(
+                'error',
+                'Títular com pendência',
+                ['position' => 'top', 'timerProgressBar' => true],
+                route('associate', $this->associate->id)
+            );
+        }
+
+        $associate['type'] = 'holder';
+        $associate['holder_id'] = NULL;
+
+        ModelsAssociate::where('id', $this->associate->id)->update($associate);
+
+        $this->flash(
+            'success',
+            'Associado virou títular',
+            ['position' => 'top', 'timerProgressBar' => true],
+            route('associate', $this->associate->id)
+        );
+    }
+
+    public function dependent()
+    {
+        $this->alert('question', 'Virar títular?', [
+            'position' => 'top',
+            'showCancelButton' => true,
+            'cancelButtonText' => 'Cancel',
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Confirmar',
+            'onConfirmed' => 'dependentConfirm',
+            'timer' => null,
+            'input' => 'text',
+            'inputLabel' => 'CPF do Títular',
+        ]);
+    }
+
+    public function dependentConfirm($data)
+    {
+        $associate = $this->validate();
+        $holder = ModelsAssociate::where('document', $data['value'])->first();
+
+        if (!$holder) {
+            return $this->flash(
+                'error',
+                'CPF do títular não encontrado',
+                ['position' => 'top', 'timerProgressBar' => true],
+                route('associate', $this->associate->id)
+            );
+        }
+
+        $associate['type'] = 'dependent';
+        $associate['holder_id'] = $holder->id;
+
+        ModelsAssociate::where('id', $this->associate->id)->update($associate);
+
+        $this->flash(
+            'success',
+            'Associado virou dependente',
+            ['position' => 'top', 'timerProgressBar' => true],
+            route('associate', $this->associate->id)
+        );
+    }
+
+    public function pendency()
+    {
+        $this->alert('question', 'Confirmar pendência?', [
+            'position' => 'top',
+            'showCancelButton' => true,
+            'cancelButtonText' => 'Cancel',
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Confirmar',
+            'onConfirmed' => 'pendencyConfirm',
+            'timer' => null,
+        ]);
+    }
+
+    public function pendencyConfirm()
+    {
+        $associate = $this->validate();
+
+        $associate['pendency'] = !$this->associate->pendency;
+
+        ModelsAssociate::where('id', $this->associate->id)->update($associate);
+
+        $this->flash(
+            'success',
+            'Pendência confirmada',
+            ['position' => 'top', 'timerProgressBar' => true],
+            route('associate', $this->associate->id)
         );
     }
 }

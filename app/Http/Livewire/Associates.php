@@ -17,10 +17,14 @@ class Associates extends Component
 
     public function render()
     {
-        $associates = Associate::where('name', 'LIKE', "%{$this->search}%")
+        $associates = Associate::with('holder')
+            ->whereRelation('holder', 'name', 'LIKE', "%{$this->search}%")
+            ->orWhereRelation('holder', 'card', 'LIKE', "%{$this->search}%")
+            ->orWhereRelation('holder', 'document', 'LIKE', "%{$this->search}%")
+            ->orWhere('name', 'LIKE', "%{$this->search}%")
             ->orWhere('card', 'LIKE', "%{$this->search}%")
             ->orWhere('document', 'LIKE', "%{$this->search}%")
-            ->orderBy('created_at', 'desc')
+            ->orderBy('card', 'asc')
             ->paginate(8);
 
         return view('livewire.associates', compact('associates'));
