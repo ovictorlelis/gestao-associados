@@ -20,7 +20,8 @@ class Associates extends Component
         $associates = Associate::where('name', 'LIKE', "%{$this->search}%")
             ->orWhere('card', 'LIKE', "%{$this->search}%")
             ->orWhere('document', 'LIKE', "%{$this->search}%")
-            ->orderBy('name')->paginate(8);
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
 
         return view('livewire.associates', compact('associates'));
     }

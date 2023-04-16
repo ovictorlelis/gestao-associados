@@ -9,49 +9,33 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h1 class="mb-3 h3">Associado</h1>
+                <h1 class="mb-3 h3">
+                    @if ($associate->type == 'holder')
+                        Títular
+                    @else
+                        <a class="text-decoration-none " href="{{ route('associate', $associate->holder->id) }}">
+                            Dependente de {{ $associate->holder->name }}
+                        </a>
+                    @endif
+                </h1>
 
-                <form action="https://documentos.local/cliente" method="POST">
-                    <input name="_token" type="hidden" value="LQc1KaYy8xSs80Zoo25nLcvnOZRrcGBFtCMtLlM9"> <input
-                        name="id" type="hidden" value="3">
+                <form wire:submit.prevent="update">
                     <div class="bg-white shadow rounded p-4 mb-5">
-                        <p>Dados</p>
-                        <div class="mb-3 d-flex gap-3">
-                            <input class="form-control shadow-none " id="first_name" name="first_name" type="text"
-                                value="Teste">
-                            <input class="form-control shadow-none " id="last_name" name="last_name" type="text"
-                                value="teste">
-                        </div>
-                        <div class="mb-3 d-flex gap-3">
-                            <input class="form-control shadow-none " id="rg" name="rg" placeholder="RG"
-                                type="text" value="">
-                            <input class="form-control shadow-none " id="cpf" maxlength="14" name="cpf"
-                                type="text" value="111.111.111-11">
-                        </div>
-                        <p class="mt-5">Endereço</p>
-                        <div class="mb-3 d-flex gap-3">
-                            <input class="form-control shadow-none " id="zip" maxlength="9" name="zip"
-                                placeholder="CEP" type="text" value="">
-                            <input class="form-control shadow-none " id="address" name="address"
-                                placeholder="Endereço" type="text" value="">
-                        </div>
-                        <div class="mb-3 d-flex gap-3">
-                            <input class="form-control shadow-none " id="neigh" name="neigh" placeholder="Bairro"
-                                type="text" value="">
-                            <input class="form-control shadow-none " id="local" name="local"
-                                placeholder="Localidade" type="text" value="">
-                        </div>
-                        <div class="mb-3 d-flex gap-3">
-                            <input class="form-control shadow-none " id="uf" name="state" placeholder="Estado"
-                                type="text" value="">
-                            <input class="form-control shadow-none " id="complement" name="complement"
-                                placeholder="Complemento" type="text" value="">
-                        </div>
+                        <x-form-associate :image="$image" />
+
                         <div class="text-end">
-                            <a class="btn btn-danger" data-id="3" href="#" id="removeClient">Excluir</a>
-                            <input class="btn btn-dark"
-                                onclick="var e=this;setTimeout(function(){e.disabled=true;},0);return true;"
-                                type="submit" value="Salvar">
+
+                            @if ($associate->type == 'holder')
+                                <a class="btn btn-warning">Bloquear</a>
+                                <a class="btn btn-info">Virar dependente</a>
+                            @endif
+
+                            @if ($associate->type == 'dependent')
+                                <a class="btn btn-info">Virar títular</a>
+                            @endif
+
+                            <button class="btn btn-danger" wire:click.prevent="delete">Excluir</button>
+                            <button class="btn btn-success" type="submit">Salvar</button>
                         </div>
                     </div>
                 </form>

@@ -15,12 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('card');
-            $table->string('document');
+            $table->string('document')->unique();
             $table->string('rg')->nullable();
+            $table->text('photo')->nullable();
             $table->enum('type', ['holder', 'dependent']);
             $table->boolean('pendency')->default(0)->nullable();
             $table->unsignedBigInteger('holder_id')->default(NULL)->nullable();
-            $table->foreign('holder_id')->references('id')->on('associates');
+            $table->foreign('holder_id')->references('id')->on('associates')->onDelete('cascade');
+            $table->string('zip')->nullable();
+            $table->string('address')->nullable();
+            $table->string('state')->nullable();
+            $table->string('fu')->nullable();
+            $table->string('number')->nullable();
+            $table->string('complement')->nullable();
             $table->timestamps();
         });
     }

@@ -9,10 +9,7 @@ class Associate extends Model
 {
     use HasFactory;
 
-    public function address()
-    {
-        return $this->hasOne(Address::class);
-    }
+    protected $fillable = ['name', 'card', 'document', 'rg', 'type', 'photo', 'pendency', 'holder_id', 'zip', 'address', 'state', 'fu', 'number', 'complement'];
 
     public function holder()
     {
