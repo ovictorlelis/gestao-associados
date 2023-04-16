@@ -35,12 +35,16 @@
                                 Deletar
                             </button>
                         @endif
-                        <button class="btn btn-dark" type="submit">
+                        <button class="btn btn-dark" type="submit" wire:loading.remove wire:target="document">
                             @if (!$data)
                                 Cadastrar
                             @else
                                 Atualizar
                             @endif
+                        </button>
+
+                        <button class="btn btn-dark" disabled wire:loading wire:target="document">
+                            Carregando...
                         </button>
                     </div>
                 </form>

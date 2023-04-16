@@ -25,6 +25,7 @@
 <div class="row mb-3">
     <div class="col-6">
         <x-input input="image" label="Enviar" type="text" type="file" wire:model="image" />
+        <div wire:loading wire:target="image">Carregando...</div>
     </div>
 
     <div class="col-6 text-center" style="height: 200px;">
