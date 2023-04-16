@@ -46,6 +46,15 @@ class Associate extends Component
         ];
     }
 
+    protected function messages()
+    {
+        return  [
+            'name.required' => 'Campo nome obrigatório',
+            'card.required' => 'Campo carteirinha obrigatório',
+            'document.required' => 'Campo CPF obrigatório',
+        ];
+    }
+
     public function mount($associate)
     {
         $this->associate = ModelsAssociate::findOrFail($associate);

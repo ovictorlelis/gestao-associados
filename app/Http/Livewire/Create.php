@@ -40,6 +40,11 @@ class Create extends Component
         'image' => 'nullable|image',
     ];
 
+    protected $messages = [
+        'name.required' => 'Campo nome obrigatório',
+        'card.required' => 'Campo carteirinha obrigatório',
+        'document.required' => 'Campo CPF obrigatório',
+    ];
 
     public function mount($dependent = '')
     {

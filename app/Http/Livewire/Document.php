@@ -31,6 +31,13 @@ class Document extends Component
         ];
     }
 
+    protected function messages()
+    {
+        return  [
+            'name.required' => 'O nome do documento é obrigatório',
+        ];
+    }
+
     public function mount($associate, $documentId = '')
     {
         $this->associate = Associate::findOrFail($associate);
