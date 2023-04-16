@@ -36,6 +36,7 @@ class Associate extends Component
         return [
             'name' => 'required|string',
             'card' => 'required|string',
+            'rg' => 'nullable|string',
             'document' => 'required|numeric|unique:associates,document,' . $this->associate->id,
             'zip' => 'nullable|numeric',
             'address' => 'nullable|string',
